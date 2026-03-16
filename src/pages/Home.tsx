@@ -13,12 +13,12 @@ export const Home = () => {
   return (
     <div className="bg-black min-h-screen text-white">
       {/* Hero Section */}
-      <section className="relative h-[110vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[135vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhwAE5GpEvjkiKI_NStV7Fd1_YGzoY5J4MpTOWGsZLDy6omSDqyJG67x7u4mpySyOG1P5TY0r2_2vxrsAFXVTtcSnCmKmHCiMLDO6lhejSrD5y0rEePGcQ8v8x8j5OfSf161SGMsf3v_nseiz-ItwwAyEwWX7NLgNWIGD6ynwnyj8oJD98Y1JuHQcjaUcxB/s1152/1773676253704648.jpeg" 
             alt="Hero Background" 
-            className="w-full h-full object-cover opacity-30 grayscale"
+            className="w-full h-full object-cover opacity-80 grayscale"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
