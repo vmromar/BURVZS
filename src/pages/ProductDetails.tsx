@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { config } from '../config';
-import { motion, AnimatePresence } from 'motion/react';
-import { Heart, X } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Heart } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
+import { DEFAULT_VAULT_PRODUCTS } from '../config/vaultConfig';
+import { WaitlistModal } from '../components/WaitlistModal';
 
 export const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const product = products.find(p => p.id === id);
+  
+  const [product, setProduct] = useState<any>(null);
+
+  useEffect(() => {
+    // Check normal products
+    let found = products.find(p => p.id === id);
+    
+    if (!found) {
+      // Check vault products
+      const savedProducts = localStorage.getItem('vault_products');
+      const vaultProducts = savedProducts ? JSON.parse(savedProducts) : DEFAULT_VAULT_PRODUCTS;
+      found = vaultProducts.find((p: any) => p.id === id);
+      
+      // Ensure gallery exists for vault products
+      if (found && !found.gallery) {
+        found.gallery = [found.image];
+      }
+    }
+    
+    setProduct(found);
+  }, [id]);
   
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
@@ -22,8 +44,6 @@ export const ProductDetails = () => {
   
   // Waitlist State
   const [showWaitlist, setShowWaitlist] = useState(false);
-  const [waitlistForm, setWaitlistForm] = useState({ name: '', email: '' });
-  const [waitlistSuccess, setWaitlistSuccess] = useState(false);
 
   if (!product) {
     return <div className="min-h-screen bg-black text-white flex items-center justify-center font-mono uppercase tracking-widest">Product Not Found</div>;
@@ -39,21 +59,6 @@ export const ProductDetails = () => {
     }
     addToCart(product, selectedSize, selectedColor, quantity);
     navigate('/cart');
-  };
-
-  const handleWaitlistSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (waitlistForm.name && waitlistForm.email) {
-      const waitlist = JSON.parse(localStorage.getItem('burvzs_waitlist') || '[]');
-      waitlist.push({ productId: product.id, ...waitlistForm, date: new Date().toISOString() });
-      localStorage.setItem('burvzs_waitlist', JSON.stringify(waitlist));
-      setWaitlistSuccess(true);
-      setTimeout(() => {
-        setShowWaitlist(false);
-        setWaitlistSuccess(false);
-        setWaitlistForm({ name: '', email: '' });
-      }, 3000);
-    }
   };
 
   return (
@@ -81,7 +86,7 @@ export const ProductDetails = () => {
               )}
             </div>
             <div className="grid grid-cols-4 gap-4">
-              {product.gallery.map((img, idx) => (
+              {product.gallery.map((img: string, idx: number) => (
                 <button 
                   key={idx} 
                   onClick={() => setActiveImage(idx)}
@@ -109,7 +114,7 @@ export const ProductDetails = () => {
               <div>
                 <h3 className="text-xs font-bold tracking-widest uppercase mb-4 text-gray-500">Size</h3>
                 <div className="flex flex-wrap gap-3">
-                  {product.sizes.map(size => (
+                  {product.sizes.map((size: string) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
@@ -128,7 +133,7 @@ export const ProductDetails = () => {
               <div>
                 <h3 className="text-xs font-bold tracking-widest uppercase mb-4 text-gray-500">Color</h3>
                 <div className="flex flex-wrap gap-3">
-                  {product.colors.map(color => (
+                  {product.colors.map((color: string) => (
                     <button
                       key={color}
                       onClick={() => setSelectedColor(color)}
@@ -191,79 +196,7 @@ export const ProductDetails = () => {
         </div>
       </div>
 
-      {/* Waitlist Modal */}
-      <AnimatePresence>
-        {showWaitlist && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="bg-zinc-900 border border-white/10 rounded-[24px] p-8 max-w-md w-full relative shadow-2xl shadow-black"
-            >
-              <button 
-                onClick={() => setShowWaitlist(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-              >
-                <X size={24} />
-              </button>
-
-              {waitlistSuccess ? (
-                <div className="text-center py-8">
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
-                  >
-                    ✓
-                  </motion.div>
-                  <h3 className="text-2xl font-bold tracking-widest uppercase mb-2">You're on the list</h3>
-                  <p className="text-gray-400 font-mono text-sm">We'll notify you when {product.name} restocks.</p>
-                </div>
-              ) : (
-                <>
-                  <h3 className="text-2xl font-bold tracking-widest uppercase mb-2">Join Waitlist</h3>
-                  <p className="text-gray-400 font-mono text-sm mb-6 uppercase">Get notified when {product.name} is back in stock.</p>
-                  
-                  <form onSubmit={handleWaitlistSubmit} className="space-y-4">
-                    <div>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="YOUR NAME"
-                        value={waitlistForm.name}
-                        onChange={e => setWaitlistForm({...waitlistForm, name: e.target.value})}
-                        className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-white/50 transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <input 
-                        type="email" 
-                        required
-                        placeholder="YOUR EMAIL"
-                        value={waitlistForm.email}
-                        onChange={e => setWaitlistForm({...waitlistForm, email: e.target.value})}
-                        className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-white/50 transition-colors"
-                      />
-                    </div>
-                    <button 
-                      type="submit"
-                      className="w-full bg-white text-black rounded-full h-12 font-bold tracking-widest uppercase hover:bg-gray-200 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300 mt-4"
-                    >
-                      Notify Me
-                    </button>
-                  </form>
-                </>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <WaitlistModal isOpen={showWaitlist} onClose={() => setShowWaitlist(false)} />
     </div>
   );
 };

@@ -14,6 +14,8 @@ import { Wishlist } from './pages/Wishlist';
 import { Terms } from './pages/Terms';
 import { Privacy } from './pages/Privacy';
 import { Manifesto } from './components/Manifesto';
+import { Vault } from './pages/Vault';
+import { AdminVault } from './pages/AdminVault';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -43,6 +45,8 @@ export default function App() {
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/manifesto" element={<Manifesto />} />
+                <Route path="/vault" element={<Vault />} />
+                <Route path="/admin/vault" element={<AdminVault />} />
               </Routes>
             </main>
             <Footer />

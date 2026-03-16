@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, Menu, X } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, X, Lock } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { motion, AnimatePresence } from 'motion/react';
@@ -91,6 +91,12 @@ export const Header = () => {
                 Waitlist
               </button>
 
+              {/* Vault */}
+              <Link to="/vault" className="text-white hover:text-gray-300 transition-colors relative group flex items-center justify-center">
+                <Lock size={20} className="group-hover:scale-110 transition-transform" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full border border-black animate-pulse"></span>
+              </Link>
+
               {/* Wishlist */}
               <Link to="/wishlist" className="text-white hover:text-gray-300 transition-colors relative group">
                 <Heart size={20} className="group-hover:scale-110 transition-transform" />
@@ -128,6 +134,17 @@ export const Header = () => {
                   <Link to="/" className="text-white block px-3 py-4 text-base font-medium tracking-widest uppercase border-b border-white/10 hover:bg-white/5 rounded-xl transition-colors">Home</Link>
                   <Link to="/shop" className="text-white block px-3 py-4 text-base font-medium tracking-widest uppercase border-b border-white/10 hover:bg-white/5 rounded-xl transition-colors">Shop</Link>
                   <Link to="/manifesto" className="text-white block px-3 py-4 text-base font-medium tracking-widest uppercase border-b border-white/10 hover:bg-white/5 rounded-xl transition-colors">Manifesto</Link>
+                  <Link 
+                    to="/vault" 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-white flex items-center justify-between px-3 py-4 text-base font-medium tracking-widest uppercase border-b border-white/10 hover:bg-white/5 rounded-xl transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Lock size={18} />
+                      <span>The Vault</span>
+                    </div>
+                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                  </Link>
                   <button 
                     onClick={() => {
                       setIsMobileMenuOpen(false);
