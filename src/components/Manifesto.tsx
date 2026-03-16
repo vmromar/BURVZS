@@ -4,7 +4,13 @@ import { motion } from 'motion/react';
 export const Manifesto = () => {
   return (
     <section className="py-32 bg-black text-white border-y border-white/10 relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10"
+      >
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -42,7 +48,7 @@ export const Manifesto = () => {
             NOTHING STOPS US EVER.
           </motion.p>
         </div>
-      </div>
+      </motion.div>
       
       {/* Abstract Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-5">

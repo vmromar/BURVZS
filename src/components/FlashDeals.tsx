@@ -51,7 +51,13 @@ export const FlashDeals: React.FC<FlashDealsProps> = ({ products }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Horizontal Deal Panel */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 md:p-12 relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 md:p-12 relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+        >
           
           <div className="relative z-10 flex flex-col md:flex-row justify-between items-center mb-12 gap-8">
             <div>
@@ -139,7 +145,7 @@ export const FlashDeals: React.FC<FlashDealsProps> = ({ products }) => {
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -31,7 +31,13 @@ export const NextDrop = () => {
 
   return (
     <section className="py-24 bg-zinc-900 text-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center"
+      >
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +66,7 @@ export const NextDrop = () => {
           <span className="text-4xl md:text-6xl font-light text-gray-600">:</span>
           <TimeUnit value={timeLeft.seconds} label="SEC" />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
