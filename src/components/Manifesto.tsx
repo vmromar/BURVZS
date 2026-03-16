@@ -45,7 +45,7 @@ export const Manifesto = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-white font-bold text-2xl md:text-3xl mt-16"
           >
-            NOTHING STOPS US EVER.
+            NOTHING STOPS US.
           </motion.p>
         </div>
       </motion.div>

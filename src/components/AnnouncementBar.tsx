@@ -15,7 +15,7 @@ export const AnnouncementBar = () => {
       >
         {[...Array(20)].map((_, i) => (
           <span key={i} className="mx-4 whitespace-nowrap">
-            NOTHING STOPS US EVER — BURVZS — 
+            NOTHING STOPS US — BURVZS — 
           </span>
         ))}
       </motion.div>

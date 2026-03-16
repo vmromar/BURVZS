@@ -24,21 +24,14 @@ export const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         </div>
         
-        <div className="relative z-10 text-center px-4">
+        <div className="relative z-10 text-center px-4 w-full flex flex-col items-center">
           <motion.h1 
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="font-black tracking-tighter skew-x-[-10deg]"
+            className="font-extrabold italic tracking-tighter uppercase text-7xl md:text-9xl mb-4 text-white skew-x-[-15deg]"
             style={{
-              fontFamily: 'system-ui',
-              fontSize: '66px',
-              height: '67px',
-              width: '309.646px',
-              marginBottom: '30px',
-              marginRight: '0px',
-              marginLeft: '0px',
-              color: '#9c9c9c'
+              lineHeight: '1',
             }}
           >
             BURVZS
@@ -49,7 +42,7 @@ export const Home = () => {
             transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
             className="text-sm md:text-base font-mono tracking-[0.5em] uppercase text-gray-300 mb-12"
           >
-            Nothing Stops Us Ever
+            Nothing Stops Us
           </motion.p>
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -58,12 +51,7 @@ export const Home = () => {
           >
             <Link 
               to="/shop" 
-              className="inline-block bg-white text-black px-12 pt-4 pb-[16px] ml-0 rounded-[36px] border-solid tracking-widest uppercase hover:bg-gray-200 transition-colors no-underline"
-              style={{
-                fontStyle: 'normal',
-                fontWeight: 'normal',
-                fontFamily: 'system-ui'
-              }}
+              className="inline-block bg-white text-black px-12 py-4 rounded-full font-bold tracking-widest uppercase hover:bg-gray-200 transition-colors no-underline"
             >
               Shop Collection
             </Link>

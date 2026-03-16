@@ -19,7 +19,7 @@ export const Footer = () => {
               />
             </Link>
             <p className="text-gray-400 text-sm max-w-md uppercase tracking-widest leading-relaxed">
-              NOTHING STOPS US EVER. Premium streetwear designed for the future.
+              NOTHING STOPS US. Premium streetwear designed for the future.
             </p>
           </div>
 
